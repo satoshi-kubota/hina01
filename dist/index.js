@@ -26,8 +26,8 @@ window.addEventListener('DOMContentLoaded', () => {
         // 敵キャラクター画像を変更する方法:
         // =====================================
         game.setEnemyImage('slime', 'assets/slime.png'); // スライム
-        // game.setEnemyImage('spike', 'assets/spike.png');  // スパイク
-        // game.setEnemyImage('bird', 'assets/bird.png');    // 鳥
+        game.setEnemyImage('spike', 'assets/spike.png'); // スパイク
+        game.setEnemyImage('bird', 'assets/bird.png'); // 鳥
         //
         // ※ 左右別の画像を指定する場合:
         // game.setEnemyImage('slime', 'assets/slime-right.png', 'assets/slime-left.png');
