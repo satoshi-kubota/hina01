@@ -1,0 +1,32 @@
+export declare class Game {
+    private canvas;
+    private ctx;
+    private config;
+    private player;
+    private stage;
+    private input;
+    private state;
+    private cameraX;
+    private lastTime;
+    private animationId;
+    private scoreElement;
+    private livesElement;
+    private startScreen;
+    private gameOverScreen;
+    private finalScoreElement;
+    constructor(canvasId: string);
+    private setupEventListeners;
+    private handleKeyDown;
+    private handleKeyUp;
+    start(): void;
+    restart(): void;
+    private gameLoop;
+    private update;
+    private handleCollisions;
+    private updateCamera;
+    private loseLife;
+    private gameOver;
+    private win;
+    private updateUI;
+    private draw;
+}
