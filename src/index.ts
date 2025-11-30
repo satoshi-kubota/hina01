@@ -20,7 +20,7 @@ window.addEventListener('DOMContentLoaded', () => {
         //     .catch(() => console.log('画像の読み込みに失敗、デフォルト表示を使用'));
         //
         // ※ 右向き画像だけ指定すると、左向きは自動で反転されます
-        game.setPlayerImage('dist/assets/player.png');
+        game.setPlayerImage('assets/player.png');
         //
         // ※ デフォルトに戻す場合:
         // game.clearPlayerImage();
