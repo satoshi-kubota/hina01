@@ -5,8 +5,8 @@ export class Player extends GameObject {
     private config: GameConfig;
     private isGrounded: boolean = false;
     private jumpForce: number = -12;
-    private moveSpeed: number = 5;
-    private maxSpeed: number = 8;
+    private moveSpeed: number = 3;
+    private maxSpeed: number = 5;
     private color: string = '#FF6B6B';
     private eyeOffset: number = 0;
     private isInvincible: boolean = false;

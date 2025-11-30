@@ -4,8 +4,8 @@ export class Player extends GameObject {
         super(x, y, 40, 50);
         this.isGrounded = false;
         this.jumpForce = -12;
-        this.moveSpeed = 5;
-        this.maxSpeed = 8;
+        this.moveSpeed = 3;
+        this.maxSpeed = 5;
         this.color = '#FF6B6B';
         this.eyeOffset = 0;
         this.isInvincible = false;
