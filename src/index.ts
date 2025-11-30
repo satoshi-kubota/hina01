@@ -26,6 +26,21 @@ window.addEventListener('DOMContentLoaded', () => {
         // game.clearPlayerImage();
         // =====================================
 
+        // =====================================
+        // 敵キャラクター画像を変更する方法:
+        // =====================================
+        // game.setEnemyImage('slime', 'assets/slime.png');  // スライム
+        // game.setEnemyImage('spike', 'assets/spike.png');  // スパイク
+        // game.setEnemyImage('bird', 'assets/bird.png');    // 鳥
+        //
+        // ※ 左右別の画像を指定する場合:
+        // game.setEnemyImage('slime', 'assets/slime-right.png', 'assets/slime-left.png');
+        //
+        // ※ デフォルトに戻す場合:
+        // game.clearEnemyImage('slime');  // 特定の敵
+        // game.clearAllEnemyImages();     // 全敵
+        // =====================================
+
     } catch (error) {
         console.error('ゲームの初期化に失敗しました:', error);
     }

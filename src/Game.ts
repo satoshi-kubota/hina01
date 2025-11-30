@@ -1,5 +1,6 @@
 import { Player } from './Player.js';
 import { Stage } from './Stage.js';
+import { Enemy, EnemyType } from './Enemy.js';
 import { InputState, GameState, GameConfig, DEFAULT_CONFIG } from './types.js';
 
 export class Game {
@@ -415,5 +416,20 @@ export class Game {
     // プレイヤーの画像をクリア（デフォルトに戻す）
     clearPlayerImage(): void {
         this.player.clearImages();
+    }
+
+    // 敵の画像を設定
+    setEnemyImage(type: EnemyType, rightImagePath: string, leftImagePath?: string): Promise<void> {
+        return Enemy.setImage(type, rightImagePath, leftImagePath);
+    }
+
+    // 敵の画像をクリア
+    clearEnemyImage(type: EnemyType): void {
+        Enemy.clearImage(type);
+    }
+
+    // 全敵の画像をクリア
+    clearAllEnemyImages(): void {
+        Enemy.clearAllImages();
     }
 }

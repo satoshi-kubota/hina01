@@ -1,3 +1,4 @@
+import { EnemyType } from './Enemy.js';
 export declare class Game {
     private canvas;
     private ctx;
@@ -36,4 +37,7 @@ export declare class Game {
     private draw;
     setPlayerImage(rightImagePath: string, leftImagePath?: string): Promise<void>;
     clearPlayerImage(): void;
+    setEnemyImage(type: EnemyType, rightImagePath: string, leftImagePath?: string): Promise<void>;
+    clearEnemyImage(type: EnemyType): void;
+    clearAllEnemyImages(): void;
 }

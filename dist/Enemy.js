@@ -17,6 +17,53 @@ export class Enemy extends GameObject {
         this.moveSpeed = type === 'bird' ? 3 : 1.5;
         this.patrolRange = type === 'bird' ? 200 : 100;
     }
+    // 敵タイプごとに画像を設定（静的メソッド）
+    static setImage(type, rightImagePath, leftImagePath) {
+        return new Promise((resolve, reject) => {
+            let loadedCount = 0;
+            const totalImages = leftImagePath ? 2 : 1;
+            const onLoad = () => {
+                loadedCount++;
+                if (loadedCount === totalImages) {
+                    Enemy.images[type].loaded = true;
+                    resolve();
+                }
+            };
+            const onError = () => {
+                console.warn(`${type}の画像読み込みに失敗しました。デフォルト表示を使用します。`);
+                reject(new Error('Image load failed'));
+            };
+            // 右向き画像
+            const rightImg = new Image();
+            rightImg.onload = onLoad;
+            rightImg.onerror = onError;
+            rightImg.src = rightImagePath;
+            Enemy.images[type].right = rightImg;
+            // 左向き画像
+            if (leftImagePath) {
+                const leftImg = new Image();
+                leftImg.onload = onLoad;
+                leftImg.onerror = onError;
+                leftImg.src = leftImagePath;
+                Enemy.images[type].left = leftImg;
+            }
+            else {
+                Enemy.images[type].left = rightImg;
+            }
+        });
+    }
+    // 画像をクリア
+    static clearImage(type) {
+        Enemy.images[type] = { loaded: false };
+    }
+    // 全画像をクリア
+    static clearAllImages() {
+        Enemy.images = {
+            slime: { loaded: false },
+            spike: { loaded: false },
+            bird: { loaded: false }
+        };
+    }
     update(deltaTime) {
         if (!this.isAlive) {
             this.squishAmount += deltaTime * 0.01;
@@ -68,16 +115,23 @@ export class Enemy extends GameObject {
             ctx.scale(1 + this.squishAmount, 1 - this.squishAmount * 0.8);
             ctx.translate(-(screenX + this.width / 2), -(this.y + this.height));
         }
-        switch (this.type) {
-            case 'slime':
-                this.drawSlime(ctx, screenX);
-                break;
-            case 'spike':
-                this.drawSpike(ctx, screenX);
-                break;
-            case 'bird':
-                this.drawBird(ctx, screenX);
-                break;
+        // 画像があれば画像を描画、なければデフォルト描画
+        const imageSet = Enemy.images[this.type];
+        if (imageSet.loaded && imageSet.right) {
+            this.drawWithImage(ctx, screenX, imageSet);
+        }
+        else {
+            switch (this.type) {
+                case 'slime':
+                    this.drawSlime(ctx, screenX);
+                    break;
+                case 'spike':
+                    this.drawSpike(ctx, screenX);
+                    break;
+                case 'bird':
+                    this.drawBird(ctx, screenX);
+                    break;
+            }
         }
         if (!this.isAlive) {
             ctx.restore();
@@ -172,5 +226,29 @@ export class Enemy extends GameObject {
         ctx.arc(screenX + this.width / 2 + beakDir * 6, this.y + this.height / 2 - 3, 2, 0, Math.PI * 2);
         ctx.fill();
     }
+    // 画像を使った描画
+    drawWithImage(ctx, screenX, imageSet) {
+        const facingRight = this.moveDirection > 0;
+        const image = facingRight ? imageSet.right : imageSet.left;
+        if (image) {
+            // 左向き画像がなく、右向き画像を反転する場合
+            if (!facingRight && imageSet.left === imageSet.right) {
+                ctx.save();
+                ctx.translate(screenX + this.width, this.y);
+                ctx.scale(-1, 1);
+                ctx.drawImage(image, 0, 0, this.width, this.height);
+                ctx.restore();
+            }
+            else {
+                ctx.drawImage(image, screenX, this.y, this.width, this.height);
+            }
+        }
+    }
 }
+// 静的な画像ストレージ（全敵で共有）
+Enemy.images = {
+    slime: { loaded: false },
+    spike: { loaded: false },
+    bird: { loaded: false }
+};
 //# sourceMappingURL=Enemy.js.map

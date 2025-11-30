@@ -1,5 +1,6 @@
 import { Player } from './Player.js';
 import { Stage } from './Stage.js';
+import { Enemy } from './Enemy.js';
 import { DEFAULT_CONFIG } from './types.js';
 export class Game {
     constructor(canvasId) {
@@ -347,6 +348,18 @@ export class Game {
     // プレイヤーの画像をクリア（デフォルトに戻す）
     clearPlayerImage() {
         this.player.clearImages();
+    }
+    // 敵の画像を設定
+    setEnemyImage(type, rightImagePath, leftImagePath) {
+        return Enemy.setImage(type, rightImagePath, leftImagePath);
+    }
+    // 敵の画像をクリア
+    clearEnemyImage(type) {
+        Enemy.clearImage(type);
+    }
+    // 全敵の画像をクリア
+    clearAllEnemyImages() {
+        Enemy.clearAllImages();
     }
 }
 //# sourceMappingURL=Game.js.map

@@ -9,7 +9,11 @@ export declare class Enemy extends GameObject {
     private startX;
     private animationTimer;
     private squishAmount;
+    private static images;
     constructor(x: number, y: number, type?: EnemyType);
+    static setImage(type: EnemyType, rightImagePath: string, leftImagePath?: string): Promise<void>;
+    static clearImage(type: EnemyType): void;
+    static clearAllImages(): void;
     update(deltaTime: number): void;
     stomp(): number;
     canBeStopped(): boolean;
@@ -19,4 +23,5 @@ export declare class Enemy extends GameObject {
     private drawSlime;
     private drawSpike;
     private drawBird;
+    private drawWithImage;
 }
