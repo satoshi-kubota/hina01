@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
         // =====================================
         // 敵キャラクター画像を変更する方法:
         // =====================================
-        // game.setEnemyImage('slime', 'assets/slime.png');  // スライム
+        game.setEnemyImage('slime', 'assets/slime.png');  // スライム
         // game.setEnemyImage('spike', 'assets/spike.png');  // スパイク
         // game.setEnemyImage('bird', 'assets/bird.png');    // 鳥
         //
