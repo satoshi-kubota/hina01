@@ -2,9 +2,9 @@ import { GameObject } from './GameObject.js';
 export class Enemy extends GameObject {
     constructor(x, y, type = 'slime') {
         const sizes = {
-            slime: { w: 40, h: 30 },
-            spike: { w: 30, h: 40 },
-            bird: { w: 50, h: 30 }
+            slime: { w: 60, h: 45 },
+            spike: { w: 45, h: 60 },
+            bird: { w: 75, h: 45 }
         };
         const size = sizes[type];
         super(x, y, size.w, size.h);
