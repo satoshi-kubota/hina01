@@ -340,5 +340,13 @@ export class Game {
         // プレイヤー描画
         this.player.draw(this.ctx, this.cameraX);
     }
+    // プレイヤーの画像を設定
+    setPlayerImage(rightImagePath, leftImagePath) {
+        return this.player.setImages(rightImagePath, leftImagePath);
+    }
+    // プレイヤーの画像をクリア（デフォルトに戻す）
+    clearPlayerImage() {
+        this.player.clearImages();
+    }
 }
 //# sourceMappingURL=Game.js.map

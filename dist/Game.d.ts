@@ -34,4 +34,6 @@ export declare class Game {
     private win;
     private updateUI;
     private draw;
+    setPlayerImage(rightImagePath: string, leftImagePath?: string): Promise<void>;
+    clearPlayerImage(): void;
 }

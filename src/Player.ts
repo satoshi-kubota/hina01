@@ -12,10 +12,61 @@ export class Player extends GameObject {
     private isInvincible: boolean = false;
     private invincibleTimer: number = 0;
     private blinkTimer: number = 0;
+    private facingRight: boolean = true;
+
+    // 画像関連
+    private imageRight: HTMLImageElement | null = null;
+    private imageLeft: HTMLImageElement | null = null;
+    private imageLoaded: boolean = false;
 
     constructor(x: number, y: number, config: GameConfig) {
         super(x, y, 40, 50);
         this.config = config;
+    }
+
+    // 画像を設定するメソッド
+    setImages(rightImagePath: string, leftImagePath?: string): Promise<void> {
+        return new Promise((resolve, reject) => {
+            let loadedCount = 0;
+            const totalImages = leftImagePath ? 2 : 1;
+
+            const onLoad = () => {
+                loadedCount++;
+                if (loadedCount === totalImages) {
+                    this.imageLoaded = true;
+                    resolve();
+                }
+            };
+
+            const onError = () => {
+                console.warn('プレイヤー画像の読み込みに失敗しました。デフォルト表示を使用します。');
+                reject(new Error('Image load failed'));
+            };
+
+            // 右向き画像
+            this.imageRight = new Image();
+            this.imageRight.onload = onLoad;
+            this.imageRight.onerror = onError;
+            this.imageRight.src = rightImagePath;
+
+            // 左向き画像（指定がなければ右向きを反転して使用）
+            if (leftImagePath) {
+                this.imageLeft = new Image();
+                this.imageLeft.onload = onLoad;
+                this.imageLeft.onerror = onError;
+                this.imageLeft.src = leftImagePath;
+            } else {
+                this.imageLeft = this.imageRight;
+                // 左向き画像がない場合は1枚だけでOK
+            }
+        });
+    }
+
+    // 画像をクリアしてデフォルト表示に戻す
+    clearImages(): void {
+        this.imageRight = null;
+        this.imageLeft = null;
+        this.imageLoaded = false;
     }
 
     update(deltaTime: number): void {
@@ -49,10 +100,12 @@ export class Player extends GameObject {
         if (input.left) {
             this.velocity.x -= this.moveSpeed;
             this.eyeOffset = -5;
+            this.facingRight = false;
         }
         if (input.right) {
             this.velocity.x += this.moveSpeed;
             this.eyeOffset = 5;
+            this.facingRight = true;
         }
 
         // 速度制限
@@ -109,6 +162,37 @@ export class Player extends GameObject {
             ctx.globalAlpha = 0.5;
         }
 
+        // 画像が読み込まれている場合は画像を描画
+        if (this.imageLoaded && this.imageRight) {
+            this.drawWithImage(ctx, screenX);
+        } else {
+            // 画像がない場合はデフォルトのシェイプ描画
+            this.drawDefault(ctx, screenX);
+        }
+
+        ctx.globalAlpha = 1;
+    }
+
+    // 画像を使った描画
+    private drawWithImage(ctx: CanvasRenderingContext2D, screenX: number): void {
+        const image = this.facingRight ? this.imageRight : this.imageLeft;
+
+        if (image) {
+            // 左向き画像がなく、右向き画像を反転する場合
+            if (!this.facingRight && this.imageLeft === this.imageRight) {
+                ctx.save();
+                ctx.translate(screenX + this.width, this.y);
+                ctx.scale(-1, 1);
+                ctx.drawImage(image, 0, 0, this.width, this.height);
+                ctx.restore();
+            } else {
+                ctx.drawImage(image, screenX, this.y, this.width, this.height);
+            }
+        }
+    }
+
+    // デフォルトのシェイプ描画
+    private drawDefault(ctx: CanvasRenderingContext2D, screenX: number): void {
         // 体
         ctx.fillStyle = this.color;
         ctx.beginPath();
@@ -141,7 +225,5 @@ export class Player extends GameObject {
         ctx.beginPath();
         ctx.arc(screenX + this.width / 2, this.y + 32, 8, 0.1 * Math.PI, 0.9 * Math.PI);
         ctx.stroke();
-
-        ctx.globalAlpha = 1;
     }
 }

@@ -11,7 +11,13 @@ export declare class Player extends GameObject {
     private isInvincible;
     private invincibleTimer;
     private blinkTimer;
+    private facingRight;
+    private imageRight;
+    private imageLeft;
+    private imageLoaded;
     constructor(x: number, y: number, config: GameConfig);
+    setImages(rightImagePath: string, leftImagePath?: string): Promise<void>;
+    clearImages(): void;
     update(deltaTime: number): void;
     handleInput(input: InputState): void;
     setGrounded(grounded: boolean): void;
@@ -21,4 +27,6 @@ export declare class Player extends GameObject {
     bounce(): void;
     reset(x: number, y: number): void;
     draw(ctx: CanvasRenderingContext2D, cameraX: number): void;
+    private drawWithImage;
+    private drawDefault;
 }

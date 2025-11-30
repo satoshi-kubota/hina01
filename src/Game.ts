@@ -406,4 +406,14 @@ export class Game {
         // プレイヤー描画
         this.player.draw(this.ctx, this.cameraX);
     }
+
+    // プレイヤーの画像を設定
+    setPlayerImage(rightImagePath: string, leftImagePath?: string): Promise<void> {
+        return this.player.setImages(rightImagePath, leftImagePath);
+    }
+
+    // プレイヤーの画像をクリア（デフォルトに戻す）
+    clearPlayerImage(): void {
+        this.player.clearImages();
+    }
 }

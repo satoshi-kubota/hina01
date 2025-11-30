@@ -8,6 +8,24 @@ window.addEventListener('DOMContentLoaded', () => {
 
         // デバッグ用にグローバルに公開
         (window as unknown as { game: Game }).game = game;
+
+        // =====================================
+        // キャラクター画像を変更する方法:
+        // =====================================
+        // 1. assets/ フォルダに画像を配置
+        // 2. 以下のコードのコメントを外して画像パスを指定
+        //
+        // game.setPlayerImage('assets/player-right.png', 'assets/player-left.png')
+        //     .then(() => console.log('プレイヤー画像を読み込みました'))
+        //     .catch(() => console.log('画像の読み込みに失敗、デフォルト表示を使用'));
+        //
+        // ※ 右向き画像だけ指定すると、左向きは自動で反転されます
+        // game.setPlayerImage('assets/player.png');
+        //
+        // ※ デフォルトに戻す場合:
+        // game.clearPlayerImage();
+        // =====================================
+
     } catch (error) {
         console.error('ゲームの初期化に失敗しました:', error);
     }
