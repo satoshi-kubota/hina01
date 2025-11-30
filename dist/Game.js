@@ -6,6 +6,7 @@ export class Game {
         this.cameraX = 0;
         this.lastTime = 0;
         this.animationId = 0;
+        this.isTouchDevice = false;
         const canvas = document.getElementById(canvasId);
         if (!canvas) {
             throw new Error('Canvas not found');
@@ -38,6 +39,9 @@ export class Game {
         this.startScreen = document.getElementById('start-screen');
         this.gameOverScreen = document.getElementById('game-over');
         this.finalScoreElement = document.getElementById('final-score');
+        this.touchControls = document.getElementById('touch-controls');
+        // タッチデバイス検出
+        this.isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         this.setupEventListeners();
     }
     setupEventListeners() {
@@ -53,6 +57,65 @@ export class Game {
         const restartBtn = document.getElementById('restart-btn');
         if (restartBtn) {
             restartBtn.addEventListener('click', () => this.restart());
+        }
+        // タッチコントロール
+        this.setupTouchControls();
+    }
+    setupTouchControls() {
+        const btnLeft = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+        const btnJump = document.getElementById('btn-jump');
+        // 左ボタン
+        if (btnLeft) {
+            btnLeft.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.input.left = true;
+            });
+            btnLeft.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.input.left = false;
+            });
+            btnLeft.addEventListener('touchcancel', () => {
+                this.input.left = false;
+            });
+        }
+        // 右ボタン
+        if (btnRight) {
+            btnRight.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.input.right = true;
+            });
+            btnRight.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.input.right = false;
+            });
+            btnRight.addEventListener('touchcancel', () => {
+                this.input.right = false;
+            });
+        }
+        // ジャンプボタン
+        if (btnJump) {
+            btnJump.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.input.jump = true;
+            });
+            btnJump.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.input.jump = false;
+            });
+            btnJump.addEventListener('touchcancel', () => {
+                this.input.jump = false;
+            });
+        }
+    }
+    showTouchControls() {
+        if (this.touchControls && this.isTouchDevice) {
+            this.touchControls.classList.remove('hidden');
+        }
+    }
+    hideTouchControls() {
+        if (this.touchControls) {
+            this.touchControls.classList.add('hidden');
         }
     }
     handleKeyDown(e) {
@@ -94,6 +157,7 @@ export class Game {
         if (this.startScreen) {
             this.startScreen.classList.add('hidden');
         }
+        this.showTouchControls();
         this.state.isRunning = true;
         this.lastTime = performance.now();
         this.gameLoop(this.lastTime);
@@ -112,7 +176,13 @@ export class Game {
         this.updateUI();
         if (this.gameOverScreen) {
             this.gameOverScreen.classList.add('hidden');
+            // ゲームクリア後のリスタート用にタイトルを戻す
+            const title = this.gameOverScreen.querySelector('h1');
+            if (title) {
+                title.textContent = 'ゲームオーバー';
+            }
         }
+        this.showTouchControls();
         this.lastTime = performance.now();
         this.gameLoop(this.lastTime);
     }
@@ -226,6 +296,7 @@ export class Game {
         this.state.isRunning = false;
         this.state.isGameOver = true;
         cancelAnimationFrame(this.animationId);
+        this.hideTouchControls();
         if (this.finalScoreElement) {
             this.finalScoreElement.textContent = this.state.score.toString();
         }
@@ -237,6 +308,7 @@ export class Game {
         this.state.score += 1000; // クリアボーナス
         this.state.isRunning = false;
         cancelAnimationFrame(this.animationId);
+        this.hideTouchControls();
         if (this.finalScoreElement) {
             this.finalScoreElement.textContent = this.state.score.toString();
         }

@@ -14,8 +14,13 @@ export declare class Game {
     private startScreen;
     private gameOverScreen;
     private finalScoreElement;
+    private touchControls;
+    private isTouchDevice;
     constructor(canvasId: string);
     private setupEventListeners;
+    private setupTouchControls;
+    private showTouchControls;
+    private hideTouchControls;
     private handleKeyDown;
     private handleKeyUp;
     start(): void;

@@ -13,6 +13,16 @@
             <div id="score">スコア: <span id="score-value">0</span></div>
             <div id="lives">ライフ: <span id="lives-value">3</span></div>
         </div>
+        <!-- タッチコントロール -->
+        <div id="touch-controls" class="hidden">
+            <div id="touch-left">
+                <button id="btn-left" class="touch-btn">◀</button>
+                <button id="btn-right" class="touch-btn">▶</button>
+            </div>
+            <div id="touch-right">
+                <button id="btn-jump" class="touch-btn jump-btn">JUMP</button>
+            </div>
+        </div>
         <div id="game-over" class="hidden">
             <h1>ゲームオーバー</h1>
             <p>スコア: <span id="final-score">0</span></p>
@@ -22,8 +32,8 @@
             <h1>横スクロールアクション</h1>
             <p>操作方法:</p>
             <ul>
-                <li>← → : 移動</li>
-                <li>スペース / ↑ : ジャンプ</li>
+                <li>PC: ← → 移動 / スペース ジャンプ</li>
+                <li>スマホ: 画面下のボタンで操作</li>
                 <li>敵を踏んで倒そう！</li>
             </ul>
             <button id="start-btn">ゲームスタート</button>
