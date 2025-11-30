@@ -1,7 +1,7 @@
 import { GameObject } from './GameObject.js';
 export class Player extends GameObject {
     constructor(x, y, config) {
-        super(x, y, 40, 50);
+        super(x, y, 60, 75);
         this.isGrounded = false;
         this.jumpForce = -12;
         this.moveSpeed = 3;

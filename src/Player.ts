@@ -20,7 +20,7 @@ export class Player extends GameObject {
     private imageLoaded: boolean = false;
 
     constructor(x: number, y: number, config: GameConfig) {
-        super(x, y, 40, 50);
+        super(x, y, 60, 75);
         this.config = config;
     }
 
